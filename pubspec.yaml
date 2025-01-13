@@ -59,8 +59,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-# asset:
-# - asset\04ff88cd-d7d5-42f1-b863-df7848d9e55a.jpg
+asset:
+  - asset\OIP-removebg-preview.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
