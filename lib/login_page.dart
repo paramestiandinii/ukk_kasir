@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kasir/home_page.dart';
+import 'package:kasir/home_page.dart'; // Assuming you have this page in your project
 
 void main() {
   runApp(const LoginPage());
@@ -25,8 +25,7 @@ class _LoginPage extends State<LoginPage> {
               image: NetworkImage(
                 "https://png.pngtree.com/thumb_back/fh260/background/20210116/pngtree-download-simple-wallpaper-donuts-image_533935.jpg",
               ),
-              fit: BoxFit
-                  .cover, // This will make the image cover the whole screen
+              fit: BoxFit.cover, // This will make the image cover the whole screen
             ),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -93,10 +92,11 @@ class _LoginPage extends State<LoginPage> {
                 margin: const EdgeInsets.only(top: 20),
                 child: ElevatedButton(
                   onPressed: () {
+                    // Navigate to the WelcomeScreen
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const HomePage()));
+                            builder: (context) => const WelcomeScreen()));
                   },
                   child: const Text("Login",
                       style: TextStyle(fontSize: 18, color: Colors.white)),
@@ -114,5 +114,85 @@ class _LoginPage extends State<LoginPage> {
         ),
       ),
     );
+  }
+}
+
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: Colors.red.shade50,
+        body: Container(
+          padding: EdgeInsets.only(top: 60, bottom: 40),
+           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset('assets/dunott.png', height: 250),
+              SizedBox(height: 10),
+              Center(
+                child:
+                Text(
+                  textAlign: TextAlign.center,
+                  "Welcome to the Donut's Shop \nLembut Donatnya Bikin Nagih..!",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              SizedBox(height: 100),
+
+              //Sign In
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
+                },
+                 child: Text(
+                  "Sign In",
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  fixedSize: Size(190, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 20),
+
+              // Registrasi
+              ElevatedButton(
+                onPressed: () {
+                  print("Registrasi Button Pressed");
+                },
+                 child: Text(
+                  "Registrasi", // Added the missing comma
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  fixedSize: Size(190, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+          ),
+        );
   }
 }
