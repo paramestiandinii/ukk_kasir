@@ -20,16 +20,28 @@ class _HomePageState extends State<HomePage> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text("Home Page"),
-          backgroundColor: Colors.blueGrey,
+          backgroundColor: Color.fromARGB(255, 250, 189, 209),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context); // Fungsi untuk kembali ke halaman sebelumnya
             },
           ),
+          
         ),
-        body: Center(
+
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                "https://png.pngtree.com/thumb_back/fh260/background/20210116/pngtree-download-simple-wallpaper-donuts-image_533935.jpg",
+              ),
+              fit: BoxFit.cover, // This will make the image cover the whole screen
+            ),
+          ),
         ),
+
+        
       ),
     );
   }
