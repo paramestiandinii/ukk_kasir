@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kasir/pelanggan/index_pelanggan.dart';
+import 'package:kasir/produk/indexProduk.dart';
 
 void main() {
   runApp(HomePage());
@@ -36,8 +37,8 @@ class _HomePageState extends State<HomePage> {
             bottom: TabBar(
               tabs: [
                 Tab(icon: Icon(Icons.drafts), text: 'Detail Penjualan'),
-                Tab(icon: Icon(Icons.inventory), text: 'Pelanggan'),
-                Tab(icon: Icon(Icons.person), text: 'Customer'),
+                Tab(icon: Icon(Icons.person_2_sharp), text: 'Customer'),
+                Tab(icon: Icon(Icons.shopping_bag), text: 'Produk'),
                 Tab(icon: Icon(Icons.shopping_cart), text: 'Penjualan'),
               ],
             ),
@@ -120,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Center(child: Text('Detail Penjualan Content')),
                   PelangganTab(),
-                  Center(child: Text('Customer Content')),
+                  ProdukTab(),
                   Center(child: Text('Penjualan Content')),
                 ],
               ),
