@@ -23,13 +23,11 @@ class _AddPelangganState extends State<AddPelanggan> {
 
       try {
         final response =
-            await Supabase.instance.client.from('pelanggan').insert(
-          {
-            'NamaPelanggan': NamaPelanggan,
-            'Alamat': Alamat,
-            'Nomor Telepon': NomorTelepon,
-          }
-        );
+            await Supabase.instance.client.from('pelanggan').insert({
+          'NamaPelanggan': NamaPelanggan,
+          'Alamat': Alamat,
+          'Nomor Telepon': NomorTelepon,
+        });
 
         if (response != null) {
           ScaffoldMessenger.of(context).showSnackBar(

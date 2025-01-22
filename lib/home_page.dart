@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
             bottom: TabBar(
               tabs: [
                 Tab(icon: Icon(Icons.drafts), text: 'Detail Penjualan'),
-                Tab(icon: Icon(Icons.inventory), text: 'Produk'),
+                Tab(icon: Icon(Icons.inventory), text: 'Pelanggan'),
                 Tab(icon: Icon(Icons.person), text: 'Customer'),
                 Tab(icon: Icon(Icons.shopping_cart), text: 'Penjualan'),
               ],
