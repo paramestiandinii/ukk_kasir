@@ -10,7 +10,7 @@ class ProdukTab extends StatefulWidget {
 }
 
 class _ProdukTabState extends State<ProdukTab> {
-  List<Map<String, dynamic>>Produk = [];
+  List<Map<String, dynamic>>produk = [];
   bool isLoading = true;
 
   @override
@@ -27,7 +27,7 @@ class _ProdukTabState extends State<ProdukTab> {
       final response =
           await Supabase.instance.client.from('produk').select();
       setState(() {
-       Produk = List<Map<String, dynamic>>.from(response);
+       produk = List<Map<String, dynamic>>.from(response);
         isLoading = false;
       });
     } catch (e) {
@@ -64,7 +64,7 @@ class _ProdukTabState extends State<ProdukTab> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          :Produk.isEmpty
+          :produk.isEmpty
               ? Center(
                   child: Text(
                     'Tidak ada Produk',
@@ -78,9 +78,9 @@ class _ProdukTabState extends State<ProdukTab> {
                     mainAxisSpacing: 12,
                   ),
                   padding: EdgeInsets.all(10),
-                  itemCount:Produk.length,
+                  itemCount:produk.length,
                   itemBuilder: (context, index) {
-                    final langgan =Produk[index];
+                    final langgan =produk[index];
                     return Card(
                       elevation: 4,
                       margin: EdgeInsets.symmetric(vertical: 8),
@@ -92,7 +92,7 @@ class _ProdukTabState extends State<ProdukTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              langgan['NamaProduk'] ??
+                             langgan['NamaProduk']?.toString() ??
                                   'Produk tidak tersedia',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -101,7 +101,7 @@ class _ProdukTabState extends State<ProdukTab> {
                             ),
                             SizedBox(height: 4),
                             Text(
-                              langgan['Harga'] ?? 
+                              langgan['Harga']?.toString() ??
                               'Harga tidak tersedia',
                               style: TextStyle(
                                 fontStyle: FontStyle.italic,
@@ -111,7 +111,7 @@ class _ProdukTabState extends State<ProdukTab> {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              langgan['Stok'] ?? 
+                              langgan['Stok']?.toString() ??
                               'Stok habis',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -134,7 +134,7 @@ class _ProdukTabState extends State<ProdukTab> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => EditProduk(
-                                             ProdukID:ProdukID),
+                                             produkID:ProdukID),
                                         ),
                                       );
                                     } else {
@@ -167,7 +167,7 @@ class _ProdukTabState extends State<ProdukTab> {
                                             TextButton(
                                               onPressed: () {
                                                 deleteProduk(
-                                                    langgan['ProdukID']);
+                                                    langgan['produkID']);
                                                 Navigator.pop(context);
                                               },
                                               child: Text('Hapus'),

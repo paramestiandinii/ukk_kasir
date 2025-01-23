@@ -83,16 +83,6 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text('Settings'),
-                  onTap: () {
-                    Navigator.pop(context); // Menutup drawer
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Settings selected')),
-                    );
-                  },
-                ),
-                ListTile(
                   leading: Icon(Icons.logout),
                   title: Text('Logout'),
                   onTap: () {

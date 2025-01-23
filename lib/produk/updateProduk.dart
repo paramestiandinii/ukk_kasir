@@ -4,9 +4,9 @@ import 'package:kasir/produk/indexProduk.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditProduk extends StatefulWidget {
-  final int ProdukID;
+  final int produkID;
 
-  EditProduk({Key? key, required this.ProdukID}) : super(key: key);
+  EditProduk({Key? key, required this.produkID}) : super(key: key);
 
   @override
   State<EditProduk> createState() => _EditProdukState();
@@ -34,7 +34,7 @@ class _EditProdukState extends State<EditProduk> {
       final data = await Supabase.instance.client
           .from('produk')
           .select()
-          .eq('produkID', widget.ProdukID)
+          .eq('produkID', widget.produkID)
           .single();
 
       if (data == null) {
@@ -43,8 +43,8 @@ class _EditProdukState extends State<EditProduk> {
 
       setState(() {
         _NamaProduk.text = data['NamaProduk'] ?? '';
-        _Harga.text = data['Harga'] ?? '';
-        _Stok.text = data['Stok'] ?? '';
+        _Harga.text = (data['Harga'] ?? 0).toString();
+        _Stok.text = (data['Stok'] ?? 0).toString();
         isLoading = false;
       });
     } catch (e) {
@@ -63,11 +63,11 @@ class _EditProdukState extends State<EditProduk> {
         isLoading = true;
       });
       try {
-        await Supabase.instance.client.from('Produk').update({
+        await Supabase.instance.client.from('produk').update({
           'NamaProduk': _NamaProduk.text,
-          'Harga': _Harga.text,
-          'Stok': _Stok.text,
-        }).eq('produkID', widget.ProdukID);
+          'Harga': int.tryParse(_Harga.text) ?? 0, // Konversi String ke int
+          'Stok': int.tryParse(_Stok.text) ?? 0,
+        }).eq('produkID', widget.produkID);
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Data Produk berhasil diperbarui')),
@@ -124,6 +124,9 @@ class _EditProdukState extends State<EditProduk> {
                         if (value == null || value.isEmpty) {
                           return 'Harga wajib diisi';
                         }
+                        if (int.tryParse(value) == null) {
+                          return 'Harga harus berupa angka';
+                        }
                         return null;
                       },
                     ),
@@ -138,7 +141,7 @@ class _EditProdukState extends State<EditProduk> {
                         if (value == null || value.isEmpty) {
                           return 'Stok wajib diisi';
                         }
-                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                        if (int.tryParse(value) == null) {
                           return 'Stok hanya boleh berisi angka';
                         }
                         return null;

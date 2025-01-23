@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:kasir/home_page.dart';
 
 void main() {
-  runApp(const RegistrasiPage());
+  runApp(RegistrasiPage());
 }
 
 class RegistrasiPage extends StatefulWidget {
-  const RegistrasiPage({super.key});
+  RegistrasiPage({super.key});
 
   @override
   _RegistrasiPageState createState() => _RegistrasiPageState();
@@ -28,7 +29,7 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
           ),
           ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -43,62 +44,59 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
               fit: BoxFit.cover, // This will make the image cover the whole screen
             ),
           ),
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,  // Menggunakan GlobalKey untuk validasi form
           child: Column(
             children: [
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               // Nama Lengkap - Wajib Diisi
               TextFormField(
                 controller: _namaController,
-                decoration: const InputDecoration(
-                  hintText: "Nama Lengkap",
+                decoration: InputDecoration(
+                  hintText: "Username",
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Nama lengkap harus diisi';
+                    return 'Username harus diisi';
                   }
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               
               // Email - Tidak Wajib Tapi Cek Format
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(
-                  hintText: "Email",
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Email harus diisi';
-                  } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-                    return 'Masukkan email yang valid';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              
-              // Password - Wajib Diisi
-              TextFormField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: "Password",
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Password harus diisi';
+                  } 
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+              
+              // Password - Wajib Diisi
+              TextFormField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  hintText: "Role",
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Role harus diisi';
                   }
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
 
               // Tombol Sign Up
               ElevatedButton(
@@ -106,12 +104,17 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
                   if (_formKey.currentState?.validate() ?? false) {
                     // Jika validasi sukses, tampilkan snackbar
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Pendaftaran berhasil!')),
+                      SnackBar(content: Text('Pendaftaran berhasil!')),
                     );
-                    Navigator.pop(context);  // Kembali ke halaman sebelumnya
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ),
+                    ); // Kembali ke halaman sebelumnya
                   }
                 },
-                child: const Text('Sign Up'),
+                child: Text('Registrasi'),
               ),
             ],
           ),

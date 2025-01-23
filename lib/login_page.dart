@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  @override
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -117,25 +117,6 @@ class _LoginPageState extends State<LoginPage> {
             ElevatedButton(
               onPressed: _login,
               child: const Text("Login",
-                  style: TextStyle(fontSize: 18, color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                fixedSize: const Size(200, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const RegistrasiPage()),
-                );
-              },
-              child: const Text("Registrasi",
                   style: TextStyle(fontSize: 18, color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
