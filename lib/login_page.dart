@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-    @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -65,19 +65,22 @@ class _LoginPageState extends State<LoginPage> {
             fit: BoxFit.cover,
           ),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            Image.asset('assets/dunott.png', height: 300),
+            SizedBox(height: 0),
             Text(
-              "you want donuts,\nwe do the rest\nOrder donuts from your\nfavorite donuts store",
+              "Donat Membuat Hidupmu Sedikit Lebih Manis😋",
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 25,
                   color: Colors.black,
                   fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 50),
+            SizedBox(height: 70),
             TextField(
               controller: _usernameController,
               decoration: InputDecoration(
@@ -85,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                 icon: Icon(Icons.person, color: Colors.black, size: 30),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                contentPadding: EdgeInsets.symmetric(horizontal: 10),
               ),
             ),
             SizedBox(height: 20),
@@ -97,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                 icon: Icon(Icons.vpn_key_sharp, color: Colors.black, size: 30),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                contentPadding: EdgeInsets.symmetric(horizontal: 10),
                 suffixIcon: IconButton(
                   icon: Icon(
                     _isPasswordVisible
@@ -113,14 +116,14 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: _login,
-              child: const Text("Login",
+              child: Text("Login",
                   style: TextStyle(fontSize: 18, color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
-                fixedSize: const Size(200, 50),
+                fixedSize: Size(200, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -134,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  WelcomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +163,7 @@ class WelcomeScreen extends StatelessWidget {
               Center(
                 child: Text(
                   textAlign: TextAlign.center,
-                  "Welcome to the One Love Donut's \nLembut Donatnya Bikin Nagih..!",
+                  "Welcome to the OneLove Donut's \nLembut Donatnya Bikin Nagih..!",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -168,7 +171,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 100),
+              SizedBox(height: 90),
 
               //Sign In
               ElevatedButton(
@@ -186,14 +189,14 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
-                  fixedSize: Size(190, 50),
+                  fixedSize: Size(170, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
 
-              SizedBox(height: 20),
+              SizedBox(height: 10),
 
               // Registrasi Button
               ElevatedButton(
@@ -211,7 +214,7 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
-                  fixedSize: Size(190, 50),
+                  fixedSize: Size(170, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

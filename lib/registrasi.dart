@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:kasir/home_page.dart';
-
-void main() {
-  runApp(RegistrasiPage());
-}
 
 class RegistrasiPage extends StatefulWidget {
   RegistrasiPage({super.key});
@@ -14,49 +11,76 @@ class RegistrasiPage extends StatefulWidget {
 
 class _RegistrasiPageState extends State<RegistrasiPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _namaController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _roleController = TextEditingController();
+  final SupabaseClient _supabase = Supabase.instance.client;
+
+  Future<void> _registerUser() async {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+    final role = _roleController.text;
+
+    if (_formKey.currentState?.validate() ?? false) {
+      try {
+        // Simpan data pengguna ke tabel Supabase
+        await _supabase.from('user').insert({
+          'username': username,
+          'password': password,
+          'role': 'petugas',
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Registrasi berhasil!')),
+        );
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Registrasi gagal: $e')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Registrasi Pengguna',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          ),
+        centerTitle: true,
+        title: Text(
+          'Registrasi Pengguna',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Color.fromARGB(255, 248, 234, 239),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back_ios_new_sharp),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context); //kembali ke halaman sebelummnya
           },
         ),
       ),
       body: Container(
         decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                "https://png.pngtree.com/thumb_back/fh260/background/20210116/pngtree-download-simple-wallpaper-donuts-image_533935.jpg",
-              ),
-              fit: BoxFit.cover, // This will make the image cover the whole screen
+          image: DecorationImage(
+            image: NetworkImage(
+              "https://png.pngtree.com/thumb_back/fh260/background/20210116/pngtree-download-simple-wallpaper-donuts-image_533935.jpg",
             ),
+            fit: BoxFit.cover, // Membuat gambar menutupi seluruh layar
           ),
+        ),
         padding: EdgeInsets.all(16.0),
         child: Form(
-          key: _formKey,  // Menggunakan GlobalKey untuk validasi form
+          key: _formKey,
           child: Column(
             children: [
-              SizedBox(height: 20),
-              // Nama Lengkap - Wajib Diisi
               TextFormField(
-                controller: _namaController,
+                controller: _usernameController,
                 decoration: InputDecoration(
-                  hintText: "Username",
-                  border: OutlineInputBorder(),
-                ),
+                    border: OutlineInputBorder(), labelText: "Username"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Username harus diisi';
@@ -64,57 +88,31 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
-              
-              // Email - Tidak Wajib Tapi Cek Format
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  hintText: "Password",
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Password harus diisi';
-                  } 
-                  return null;
-                },
-              ),
-              SizedBox(height: 20),
-              
-              // Password - Wajib Diisi
+              SizedBox(height: 16),
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
-                  hintText: "Role",
-                  border: OutlineInputBorder(),
-                ),
+                    border: OutlineInputBorder(), labelText: "Password"),
+                obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Role harus diisi';
+                    return 'Password harus diisi';
                   }
                   return null;
                 },
               ),
-              SizedBox(height: 20),
-
-              // Tombol Sign Up
+              SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    // Jika validasi sukses, tampilkan snackbar
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Pendaftaran berhasil!')),
-                    );
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ),
-                    ); // Kembali ke halaman sebelumnya
-                  }
-                },
-                child: Text('Registrasi'),
+                onPressed: _registerUser,
+                child: Text('Daftar',
+                    style: TextStyle(fontSize: 18, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  fixedSize: Size(100, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
               ),
             ],
           ),

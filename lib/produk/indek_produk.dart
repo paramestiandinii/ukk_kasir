@@ -1,87 +1,78 @@
 import 'package:flutter/material.dart';
-import 'package:kasir/pelanggan/index_pelanggan.dart';
-import 'package:kasir/pelanggan/insert_pelanggan.dart';
-import 'package:kasir/pelanggan/update_pelanggan.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:kasir/DetailPenjualan/detailPenjualan.dart';
+import 'package:kasir/produk/inserts_produk.dart';
+import 'package:kasir/produk/update_produk.dart';
 
-class PelangganTab extends StatefulWidget {
+class ProdukTab extends StatefulWidget {
   @override
-  _PelangganTabState createState() => _PelangganTabState();
+  _ProdukTabState createState() => _ProdukTabState();
 }
 
-class _PelangganTabState extends State<PelangganTab> {
-  List<Map<String, dynamic>> pelanggan = [];
+class _ProdukTabState extends State<ProdukTab> {
+  List<Map<String, dynamic>> produk = [];
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    fetchPelanggan();
+    fetchProduk();
   }
 
-  Future<void> fetchPelanggan() async {
+  Future<void> fetchProduk() async {
     setState(() {
       isLoading = true;
     });
     try {
-      final response =
-          await Supabase.instance.client.from('pelanggan').select();
+      final response = await Supabase.instance.client.from('produk').select();
       setState(() {
-        pelanggan = List<Map<String, dynamic>>.from(response);
+        produk = List<Map<String, dynamic>>.from(response);
         isLoading = false;
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching pelanggan: $e')),
-      );
+      print('Error fetching produk: $e');
       setState(() {
         isLoading = false;
       });
     }
   }
 
-  Future<void> deletePelanggan(int id) async {
+  Future<void> deleteProduk(int ProdukID) async {
     try {
       await Supabase.instance.client
-          .from('pelanggan')
+          .from('produk')
           .delete()
-          .eq('PelangganID', id);
-      fetchPelanggan();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Pelanggan berhasil dihapus')),
-      );
+          .eq('produkID', ProdukID);
+      fetchProduk();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error deleting pelanggan: $e')),
-      );
+      print('Error deleting produk: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading
+      body: produk.isEmpty
           ? Center(
-              child: CircularProgressIndicator(),
+              child: Text(
+                'Tidak ada produk',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             )
-          : pelanggan.isEmpty
-              ? Center(
-                  child: Text(
-                    'Tidak ada pelanggan',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                )
-              : GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                  ),
-                  padding: EdgeInsets.all(10),
-                  itemCount: pelanggan.length,
-                  itemBuilder: (context, index) {
-                    final langgan = pelanggan[index];
-                    return Card(
+          : ListView.builder(
+              padding: EdgeInsets.all(8),
+              itemCount: produk.length,
+              itemBuilder: (context, index) {
+                final roduk = produk[index];
+                return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailProdukTab(produk: roduk)));
+                    },
+                    child: Card(
                       elevation: 4,
                       margin: EdgeInsets.symmetric(vertical: 8),
                       shape: RoundedRectangleBorder(
@@ -92,28 +83,30 @@ class _PelangganTabState extends State<PelangganTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              langgan['NamaPelanggan'] ??
-                                  'Pelanggan tidak tersedia',
+                              roduk['NamaProduk']?.toString() ??
+                                  'Produk tidak tersedia',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 14,
+                                fontSize: 20,
                               ),
                             ),
                             SizedBox(height: 4),
                             Text(
-                              langgan['Alamat'] ?? 'Alamat tidak tersedia',
+                              roduk['Harga']?.toString() ??
+                                  'Harga Tidak tersedia',
                               style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                fontSize: 13,
+                                fontSize: 16,
                                 color: Colors.grey,
                               ),
                             ),
                             SizedBox(height: 8),
                             Text(
-                              langgan['Nomor Telepon'] ?? 'Tidak tersedia',
+                              roduk['Stok']?.toString() ?? 
+                              'Tidak tersedia',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                                fontSize: 14,
                               ),
                               textAlign: TextAlign.justify,
                             ),
@@ -125,23 +118,17 @@ class _PelangganTabState extends State<PelangganTab> {
                                   icon: Icon(Icons.edit,
                                       color: Colors.blueAccent),
                                   onPressed: () {
-                                    final pelangganID =
-                                        langgan['PelangganID'] ?? 0;
-                                    if (pelangganID != 0) {
+                                    final ProdukID = roduk['produkID'] ??
+                                        0; // Pastikan ini sesuai dengan kolom di database
+                                    if (ProdukID != 0) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => EditPelanggan(
-                                              PelangganID: pelangganID),
-                                        ),
+                                            builder: (context) =>
+                                                EditProduk(produkID: ProdukID)),
                                       );
                                     } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                            content: Text(
-                                                'ID pelanggan tidak valid')),
-                                      );
+                                      print('ID produk tidak valid');
                                     }
                                   },
                                 ),
@@ -153,9 +140,9 @@ class _PelangganTabState extends State<PelangganTab> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: Text('Hapus Pelanggan'),
+                                          title: Text('Hapus Produk'),
                                           content: Text(
-                                              'Apakah Anda yakin ingin menghapus pelanggan ini?'),
+                                              'Apakah Anda yakin ingin menghapus produk ini?'),
                                           actions: [
                                             TextButton(
                                               onPressed: () =>
@@ -164,8 +151,7 @@ class _PelangganTabState extends State<PelangganTab> {
                                             ),
                                             TextButton(
                                               onPressed: () {
-                                                deletePelanggan(
-                                                    langgan['PelangganID']);
+                                                deleteProduk(roduk['produkID']);
                                                 Navigator.pop(context);
                                               },
                                               child: Text('Hapus'),
@@ -181,14 +167,14 @@ class _PelangganTabState extends State<PelangganTab> {
                           ],
                         ),
                       ),
-                    );
-                  },
-                ),
+                    ));
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddPelanggan()),
+            MaterialPageRoute(builder: (context) => AddProduk()),
           );
         },
         child: Icon(Icons.add),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kasir/pelanggan/index_pelanggan.dart';
-import 'package:kasir/produk/indexProduk.dart';
+import 'package:kasir/pelanggan/indexPelanggan.dart';
+import 'package:kasir/produk/indek_produk.dart';
+import 'package:kasir/DetailPenjualan/detailPenjualan.dart';
+
 
 void main() {
   runApp(HomePage());
@@ -22,7 +24,8 @@ class _HomePageState extends State<HomePage> {
         length: 4,
         child: Scaffold(
           appBar: AppBar(
-            title: Text("Home Page"),
+            title: Text("OneLove Store", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
             backgroundColor: Color.fromARGB(255, 250, 189, 209),
             leading: Builder(
               builder: (context) {
@@ -109,7 +112,7 @@ class _HomePageState extends State<HomePage> {
               ),
               TabBarView(
                 children: [
-                  Center(child: Text('Detail Penjualan Content')),
+                DetailProdukTab(),
                   PelangganTab(),
                   ProdukTab(),
                   Center(child: Text('Penjualan Content')),
